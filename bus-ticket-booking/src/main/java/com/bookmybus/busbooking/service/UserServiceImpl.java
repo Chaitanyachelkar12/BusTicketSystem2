@@ -2,8 +2,13 @@ package com.bookmybus.busbooking.service;
 
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bookmybus.busbooking.entity.User;
@@ -14,6 +19,14 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private JWTService jwtService;
+	
+	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	private BCryptPasswordEncoder bEncoder = new BCryptPasswordEncoder(12);
 
 	@Override
 	public User createUser(User user) {
@@ -72,13 +85,28 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User findByUsername(String username) {
 		// TODO Auto-generated method stub
-		return userRepository.findByUsername(username).orElse(null);
+		return userRepository.findByUsername(username);
 	}
 
 	@Override
 	public void save(User user) {
-		// TODO Auto-generated method stub
+		user.setPassword(bEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 
+	
+
+	@Override
+	public String verify(User user) {
+	    try {
+	        Authentication authentication = authenticationManager
+	            .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+	        if (authentication.isAuthenticated()) {
+	            return jwtService.generateToken(user.getUsername());
+	        }
+	    } catch (AuthenticationException e) {
+	        return "Invalid credentials!";
+	    }
+	    return "Invalid credentials!";
+	}
 }

@@ -23,6 +23,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@GetMapping("/test")
+	public String test()
+	{
+		return "welcome";
+	}
+	
 	@PostMapping
 	public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
@@ -70,16 +76,7 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
-        // Find the user by username or email
-        User existingUser = userService.findByUsername(user.getUsername());
-        
-        // Optional: You can also validate using password
-        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-            // Return a success message or token if you implement JWT
-            return ResponseEntity.ok("Login successful!");
-        } else {
-            return ResponseEntity.badRequest().body("Invalid credentials!");
-        }
+    public String loginUser(@RequestBody User user) {
+    	return userService.verify(user);
     }
 }

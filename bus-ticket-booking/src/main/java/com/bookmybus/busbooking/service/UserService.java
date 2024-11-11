@@ -1,7 +1,6 @@
 package com.bookmybus.busbooking.service;
 
 import java.util.List;
-
 import com.bookmybus.busbooking.entity.User;
 
 public interface UserService {
@@ -15,4 +14,5 @@ public interface UserService {
     boolean existsByEmail(String email);
     User findByUsername(String username);
     void save(User user);
+	String verify(User user);
 }

@@ -1,4 +1,4 @@
-package com.bookmybus.busbooking.entity;
+ package com.bookmybus.busbooking.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
