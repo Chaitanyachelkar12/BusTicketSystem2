@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookmybus.busbooking.controller.Exception.BusIsNotFoundException;
 import com.bookmybus.busbooking.entity.Bus;
 import com.bookmybus.busbooking.repository.BusRepository;
 
@@ -21,6 +22,7 @@ public class BusServiceImpl implements BusService {
 		return busRepository.save(bus);
 	}
 
+
 	@Override
 	public Bus getBusById(Long busId) {
 		// TODO Auto-generated method stub
@@ -28,10 +30,9 @@ public class BusServiceImpl implements BusService {
         if (busOptional.isPresent()) {
             return busOptional.get();
         } else {
-            throw new RuntimeException("Bus not found with id " + busId);
+            throw new BusIsNotFoundException("Bus not found with id "+busId);
         }
 	}
-
 	@Override
 	public List<Bus> getAllBuses() {
 		// TODO Auto-generated method stub

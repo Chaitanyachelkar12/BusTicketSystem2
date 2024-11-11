@@ -12,4 +12,6 @@ public interface BookingService {
     Booking updateBooking(Long bookingId, Booking bookingDetails);
     void deleteBooking(Long bookingId);
     Booking bookTicket(Long userId, Long busId, List<String> seatNumbers) throws Exception;
+	Booking getBookingByStatus(String status);
+	Booking getBookingBySeatNumbers(String seatNumbers);
 }

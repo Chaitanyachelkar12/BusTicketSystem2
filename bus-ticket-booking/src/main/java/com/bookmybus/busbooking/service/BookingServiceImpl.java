@@ -101,4 +101,15 @@ public class BookingServiceImpl implements BookingService{
 
         return bookingRepository.save(booking);
 	}
+	
+
+	public Booking getBookingBySeatNumbers(String seatNumbers) {
+		
+	return bookingRepository.findBookingBySeatNumbers(seatNumbers);
+	
+	}
+	
+	public Booking getBookingByStatus(String status) {
+		return bookingRepository.findBystatus(status);
+	}
 }

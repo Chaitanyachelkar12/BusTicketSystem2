@@ -23,11 +23,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/test")
-	public String test()
-	{
-		return "welcome";
-	}
 	
 	@PostMapping
 	public ResponseEntity<User> createUser(@RequestBody User user) {
